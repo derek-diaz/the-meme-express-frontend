@@ -7,8 +7,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reducers from "./redux"
+import {loadState, saveState} from "./utils/localStorage";
+import throttle from 'lodash';
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const persistedState = loadState();
+const store = createStore(reducers, persistedState, applyMiddleware(thunk));
+
+store.subscribe(() => {
+    saveState(store.getState());
+});
+
+
 
 ReactDOM.render(
     <Provider store={store}>

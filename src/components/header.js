@@ -32,14 +32,16 @@ function Header() {
         state => state.userReducer
     );
 
+    function logout(e){
+        localStorage.clear();
+        window.location.reload();
+    }
+
     if (!_.isNil(user.data) && !_.isNil(user.data.id)) {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
-                            <MenuIcon/>
-                        </IconButton>
                         <Typography className={classes.title}>
                             <Link to="/home"><img src={logo} alt="Logo"/></Link>
                         </Typography>
@@ -47,6 +49,8 @@ function Header() {
                                                   className={classes.button}>My Favorites</Button></Link>
                         <Link to="/ghiphy"><Button variant="contained" color="primary"
                                                      className={classes.button}>Find Ghiphys</Button></Link>
+                        <Link to="/login" onClick={(e)=>{logout(e)}}><Button variant="contained" color="primary"
+                                                     className={classes.button}>Logout</Button></Link>
                     </Toolbar>
                 </AppBar>
             </div>

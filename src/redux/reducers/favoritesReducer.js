@@ -1,4 +1,4 @@
-import {actions} from '../actions/userActions';
+import {actions} from '../actions/favoriteActions';
 
 const initialState = {
     loading: false,
@@ -10,8 +10,10 @@ const initialState = {
 
 function userReducer (state = initialState, action){
     switch (action.type){
-        case actions.USER_LOGIN_REQUEST:
-        case actions.USER_REGISTER_REQUEST:
+        case actions.FAVORITE_ADD_REQUEST:
+        case actions.FAVORITE_UPDATE_REQUEST:
+        case actions.FAVORITE_DELETE_REQUEST:
+        case actions.FAVORITE_LIST_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -19,7 +21,7 @@ function userReducer (state = initialState, action){
                 errorMessage: "",
                 status: ""
             };
-        case actions.USER_LOGIN_SUCCESS:
+        case actions.FAVORITE_LIST_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -27,26 +29,24 @@ function userReducer (state = initialState, action){
                 status: action.status,
                 data: action.data
             };
-        case actions.USER_LOGIN_FAILED:
-            return {
-                ...state,
-                loading: false,
-                errorMessage: action.error,
-                status: action.status,
-                error: true
-            };
-        case actions.USER_REGISTER_SUCCESS:
+        case actions.FAVORITE_ADD_SUCCESS:
+        case actions.FAVORITE_UPDATE_SUCCESS:
+        case actions.FAVORITE_DELETE_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 errorMessage: "",
-                status: action.status
+                status: action.status,
+                data: ''
             };
-        case actions.USER_REGISTER_FAILED:
+        case actions.FAVORITE_ADD_FAILED:
+        case actions.FAVORITE_UPDATE_FAILED:
+        case actions.FAVORITE_DELETE_FAILED:
+        case actions.FAVORITE_LIST_FAILED:
             return {
                 ...state,
                 loading: false,
-                errorMessage: action.error.message,
+                errorMessage: action.error,
                 status: action.status,
                 error: true
             };

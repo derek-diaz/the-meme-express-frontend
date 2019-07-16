@@ -1,4 +1,4 @@
-import {serviceBaseUrl} from '../../constants/'
+import {SERVICE_BASE_URL} from '../../constants/'
 import axios from 'axios';
 import qs from 'qs';
 
@@ -39,7 +39,7 @@ export function loginFailed(error) {
 export const registerUser = (email, password, name) => (dispatch) => {
     dispatch(registerRequest());
 
-    const serviceURL = serviceBaseUrl + 'user/register';
+    const serviceURL = SERVICE_BASE_URL + 'user/register';
 
     const payload = qs.stringify({
         name,
@@ -67,7 +67,7 @@ export const registerUser = (email, password, name) => (dispatch) => {
 export const loginUser = (email, password) => (dispatch) => {
     dispatch(loginRequest());
 
-    const serviceURL = serviceBaseUrl + 'user/login';
+    const serviceURL = SERVICE_BASE_URL + 'user/login';
 
     const payload = qs.stringify({
         email,
