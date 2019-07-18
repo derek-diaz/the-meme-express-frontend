@@ -1,3 +1,10 @@
+/**
+ * Index
+ *
+ * @file   index.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

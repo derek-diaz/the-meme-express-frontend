@@ -1,3 +1,10 @@
+/**
+ * Favorite Redux - Actions
+ *
+ * @file   favoriteActions.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import axios from 'axios';
 import {SERVICE_BASE_URL, API_KEY, GIPHY_BASE_URL} from "../../constants";
 import qs from "qs";
@@ -21,12 +28,12 @@ export const actions = {
 };
 
 export function favoriteRequest(type) {
-    return { type }
+    return {type}
 }
 
 export function favoriteSuccess(type, response) {
-    if(type === actions.FAVORITE_LIST_SUCCESS || type === actions.FAVORITE_GIPHY_SUCCESS)
-        return { type, status: response.status, data: response.data.data };
+    if (type === actions.FAVORITE_LIST_SUCCESS || type === actions.FAVORITE_GIPHY_SUCCESS)
+        return {type, status: response.status, data: response.data.data};
     else {
         return {type, status: response.status};
     }
@@ -34,7 +41,7 @@ export function favoriteSuccess(type, response) {
 }
 
 export function favoriteFailed(type, error) {
-    return { type, error }
+    return {type, error}
 }
 
 export const addFavorite = (token, category, giphy_id) => (dispatch) => {
@@ -83,7 +90,7 @@ export const listFavorite = (token) => (dispatch) => {
             dispatch(favoriteSuccess(actions.FAVORITE_LIST_SUCCESS, response));
 
             const ids = response.data.data.favorites.map((gif, index) => (
-                    gif.giphy
+                gif.giphy
             ));
             const parsedIds = ids.join();
             dispatch(getGiphys(parsedIds));

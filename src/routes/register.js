@@ -1,3 +1,10 @@
+/**
+ * Routes - Register
+ *
+ * @file   favorites.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import Avatar from '@material-ui/core/Avatar';
@@ -63,21 +70,24 @@ export default function Register() {
         state => state.userReducer
     );
 
-    console.log("USER State: ",user);
+    console.log("USER State: ", user);
 
+    /**
+     * Handle the Registration Submit
+     * @param event - Object
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
-
         console.log(email);
         console.log(password);
         //Input Validation
         if (!emailIsValid(email)) {
             setErrorMessage("Invalid Email Format used!");
             setOpen(true);
-        }else if( password !== passwordConfirm){
+        } else if (password !== passwordConfirm) {
             setOpen(true);
             setErrorMessage("Passwords do not match!");
-        }else if (!passwordValidator(password)){
+        } else if (!passwordValidator(password)) {
             setOpen(true);
             setErrorMessage("Password must be have 8 character or more, at least one number and one capital letter!");
         } else {
@@ -88,10 +98,12 @@ export default function Register() {
         }
     };
 
-    function handleClose(event, reason) {
-        if (reason === 'clickaway') {
-            return;
-        }
+
+    /**
+     * Close popup
+     * @param event - Object
+     */
+    function handleClose(event) {
         setOpen(false);
     }
 

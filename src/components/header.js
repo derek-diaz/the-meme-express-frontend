@@ -1,6 +1,13 @@
+/**
+ * Generate header
+ *
+ * @file   header.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React from 'react';
-import { Link } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
+import {Link} from "react-router-dom";
+import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -26,17 +33,19 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Header() {
+export default function Header() {
     const classes = useStyles();
     const user = useSelector(
         state => state.userReducer
     );
 
-    function logout(e){
+    //Wipe the browser localStorage
+    function logout(e) {
         localStorage.clear();
         window.location.reload();
     }
 
+    //Check if the user is logged in to generate the appropriate header.
     if (!_.isNil(user.data) && !_.isNil(user.data.id)) {
         return (
             <div className={classes.root}>
@@ -46,17 +55,19 @@ function Header() {
                             <Link to="/home"><img src={logo} alt="Logo"/></Link>
                         </Typography>
                         <Link to="/favorites"><Button variant="contained" color="primary"
-                                                  className={classes.button}>My Favorites</Button></Link>
+                                                      className={classes.button}>My Favorites</Button></Link>
                         <Link to="/home"><Button variant="contained" color="primary"
-                                                     className={classes.button}>Find Ghiphys</Button></Link>
-                        <Link to="/login" onClick={(e)=>{logout(e)}}><Button variant="contained" color="primary"
-                                                     className={classes.button}>Logout</Button></Link>
+                                                 className={classes.button}>Find Ghiphys</Button></Link>
+                        <Link to="/login" onClick={(e) => {
+                            logout(e)
+                        }}><Button variant="contained" color="primary"
+                                   className={classes.button}>Logout</Button></Link>
                     </Toolbar>
                 </AppBar>
             </div>
         );
 
-    }else {
+    } else {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -77,5 +88,3 @@ function Header() {
         );
     }
 }
-
-export default Header

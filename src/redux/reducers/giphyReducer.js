@@ -1,3 +1,10 @@
+/**
+ * Giphy Redux - Reducer
+ *
+ * @file   giphyReducer.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import {actions} from '../actions/giphyActions';
 
 const initialState = {
@@ -8,8 +15,8 @@ const initialState = {
     data: []
 };
 
-function giphyReducer (state = initialState, action){
-    switch (action.type){
+function giphyReducer(state = initialState, action) {
+    switch (action.type) {
         case actions.GIPHY_SEARCH_REQUEST:
             return {
                 ...state,

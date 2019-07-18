@@ -1,3 +1,10 @@
+/**
+ * Routes - Home
+ *
+ * @file   home.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -13,7 +20,6 @@ import Card from "@material-ui/core/Card/Card";
 import CardHeader from "@material-ui/core/CardHeader/CardHeader";
 import CardActions from "@material-ui/core/CardActions/CardActions";
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
@@ -72,8 +78,13 @@ function Home() {
     const user = useSelector(
         state => state.userReducer
     );
-    console.log("USER State: ",user);
+    console.log("USER State: ", user);
 
+    /**
+     * Save the id into a hook of the Gif the user wants to save and open the popup
+     * @param event
+     * @param id
+     */
     function saveFavorite(event, id) {
         event.preventDefault();
         setOpen(true);
@@ -81,6 +92,12 @@ function Home() {
         console.log("SAVING: ", id);
     }
 
+
+    /**
+     * User selected a category and clicked save
+     * @param event
+     * @param category
+     */
     function saveFavoriteCategory(event, category) {
         event.preventDefault();
         console.log("SAVING: ", category);
@@ -88,16 +105,29 @@ function Home() {
         setOpen(false);
     }
 
+
+    /**
+     * Handle the enter key if it is pressed in the search window
+     * @param event
+     */
     function enterPressed(event) {
         if (event.key === 'Enter') {
             search(event);
         }
     }
 
+
+    /**
+     * Close popup
+     */
     function handleClose() {
         setOpen(false);
     }
 
+    /**
+     * Initiate Search
+     * @param event
+     */
     function search(event) {
         event.preventDefault();
         //Do not search if there's nothing
@@ -106,6 +136,11 @@ function Home() {
         }
     }
 
+    /**
+     * Generate the list of gifs to be shown
+     * @param data
+     * @returns {*}
+     */
     function generateList(data) {
         if (!_.isNil(data)) {
             return data.map((gif, index) => (
@@ -114,7 +149,6 @@ function Home() {
                         <CardHeader
                             title={gif.title.replace("GIF", "")}
                         />
-
                         <img
                             className={classes.media}
                             src={gif.images.downsized_medium.url}
@@ -127,9 +161,6 @@ function Home() {
                             }}> <IconButton aria-label="Add to favorites">
                                 <FavoriteIcon/>
                             </IconButton></a>
-                            <IconButton aria-label="Share">
-                                <ShareIcon/>
-                            </IconButton>
                         </CardActions>
                     </Card>
                 </Grid>
@@ -178,7 +209,7 @@ function Home() {
                 <DialogTitle id="form-dialog-title">Save</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                       Please select a category to save this GIPHY under.
+                        Please select a category to save this GIPHY under.
                     </DialogContentText>
                     <form className={classes.container}>
                         <FormControl className={classes.formControl}>
@@ -203,7 +234,9 @@ function Home() {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={(e) => {saveFavoriteCategory(e, category)}} color="primary">
+                    <Button onClick={(e) => {
+                        saveFavoriteCategory(e, category)
+                    }} color="primary">
                         Save
                     </Button>
                 </DialogActions>

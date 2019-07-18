@@ -1,3 +1,10 @@
+/**
+ * Giphy Redux - Actions
+ *
+ * @file   giphyActions.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import {GIPHY_BASE_URL, API_KEY} from '../../constants/'
 import axios from 'axios';
 
@@ -8,15 +15,15 @@ export const actions = {
 };
 
 export function giphyRequest() {
-    return { type: actions.GIPHY_SEARCH_REQUEST }
+    return {type: actions.GIPHY_SEARCH_REQUEST}
 }
 
 export function giphySuccess(response) {
-    return { type: actions.GIPHY_SEARCH_SUCCESS, status: response.status, data: response.data.data }
+    return {type: actions.GIPHY_SEARCH_SUCCESS, status: response.status, data: response.data.data}
 }
 
 export function giphyFailed(error) {
-    return { type: actions.GIPHY_SEARCH_FAILED, error }
+    return {type: actions.GIPHY_SEARCH_FAILED, error}
 }
 
 export const searchGiphy = (query, offset) => (dispatch) => {

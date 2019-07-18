@@ -1,3 +1,10 @@
+/**
+ * Routes - Favorites
+ *
+ * @file   favorites.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -75,6 +82,11 @@ function Favorites() {
         console.log(favorite);
     }, []);
 
+    /**
+     * Save the id into a hook of the git to be edited and launch popup
+     * @param event
+     * @param id
+     */
     function editFavorite(event, id) {
         event.preventDefault();
         setOpen(true);
@@ -82,12 +94,22 @@ function Favorites() {
         console.log("EDITING: ", id);
     }
 
+    /**
+     * Initiate the removal of gif
+     * @param event
+     * @param id
+     */
     function removeFavorite(event, id) {
         event.preventDefault();
         console.log("REMOVING: ", id);
         dispatch(deleteFavorite(id, user.data.token))
     }
 
+    /**
+     * Initiate update after the user selects the new category
+     * @param event
+     * @param category
+     */
     function saveFavoriteCategory(event, category) {
         event.preventDefault();
         console.log("SAVING: ", category);
@@ -95,36 +117,55 @@ function Favorites() {
         setOpen(false);
     }
 
+    /**
+     * Close popup
+     */
     function handleClose() {
         setOpen(false);
     }
 
-    function getCategory(id){
+    /**
+     * Cross reference the id with the giphy payload
+     * @param id
+     * @returns {string}
+     */
+    function getCategory(id) {
         let result = '';
         console.log("ID: ", id);
         console.log("FAV", favorite);
         if (!_.isNil(favorite) && !_.isNil(favorite.data) && favorite.data !== "") {
             favorite.data.favorites.forEach(function (value) {
                 if (value.giphy === id) {
-                     result = value.category;
+                    result = value.category;
                 }
             });
         }
         return result;
     }
 
-    function getId(id){
+
+    /**
+     * Cross reference the id with the giphy payload
+     * @param id
+     * @returns {string}
+     */
+    function getId(id) {
         let result = '';
         if (!_.isNil(favorite) && !_.isNil(favorite.data)) {
             favorite.data.favorites.forEach(function (value) {
                 if (value.giphy === id) {
-                     result = value.id;
+                    result = value.id;
                 }
             });
         }
         return result;
     }
 
+    /**
+     * Generate gif list to be shown
+     * @param data
+     * @returns {*}
+     */
     function generateList(data) {
         console.log("LIST: ", data);
         if (!_.isNil(data)) {
@@ -215,7 +256,9 @@ function Favorites() {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={(e) => {saveFavoriteCategory(e, category)}} color="primary">
+                    <Button onClick={(e) => {
+                        saveFavoriteCategory(e, category)
+                    }} color="primary">
                         Update
                     </Button>
                 </DialogActions>

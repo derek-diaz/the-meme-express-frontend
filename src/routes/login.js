@@ -1,3 +1,10 @@
+/**
+ * Routes - Login
+ *
+ * @file   login.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
@@ -49,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Login() {
-    //React Hooks
+    //Hooks
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [open, setOpen] = React.useState(false);
@@ -59,8 +66,12 @@ export default function Login() {
     const user = useSelector(
         state => state.userReducer
     );
-    console.log("USER State: ",user);
+    console.log("USER State: ", user);
 
+    /**
+     * Handle Login Submit
+     * @param event
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -75,10 +86,11 @@ export default function Login() {
         }
     };
 
-    function handleClose(event, reason) {
-        if (reason === 'clickaway') {
-            return;
-        }
+    /**
+     * Close Popup
+     * @param event
+     */
+    function handleClose(event) {
         setOpen(false);
     }
 

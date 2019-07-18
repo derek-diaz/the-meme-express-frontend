@@ -1,3 +1,10 @@
+/**
+ * Routes - Introduction
+ *
+ * @file   intro.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import React from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import {makeStyles} from "@material-ui/core";

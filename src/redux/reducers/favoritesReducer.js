@@ -1,3 +1,10 @@
+/**
+ * Favorite Redux - Reducer
+ *
+ * @file   favoriteActions.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import {actions} from '../actions/favoriteActions';
 
 const initialState = {
@@ -9,8 +16,8 @@ const initialState = {
     giphy: []
 };
 
-function userReducer (state = initialState, action){
-    switch (action.type){
+function userReducer(state = initialState, action) {
+    switch (action.type) {
         case actions.FAVORITE_ADD_REQUEST:
         case actions.FAVORITE_UPDATE_REQUEST:
         case actions.FAVORITE_DELETE_REQUEST:

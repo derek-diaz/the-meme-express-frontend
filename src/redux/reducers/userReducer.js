@@ -1,3 +1,10 @@
+/**
+ * User Redux - Reducer
+ *
+ * @file   userReducer.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import {actions} from '../actions/userActions';
 
 const initialState = {
@@ -8,8 +15,8 @@ const initialState = {
     data: []
 };
 
-function userReducer (state = initialState, action){
-    switch (action.type){
+function userReducer(state = initialState, action) {
+    switch (action.type) {
         case actions.USER_LOGIN_REQUEST:
         case actions.USER_REGISTER_REQUEST:
             return {

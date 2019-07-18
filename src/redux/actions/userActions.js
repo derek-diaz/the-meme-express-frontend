@@ -1,3 +1,10 @@
+/**
+ * User Redux - Actions
+ *
+ * @file   userActions.js
+ * @author Derek Diaz Correa
+ * @since  7.17.2019
+ */
 import {SERVICE_BASE_URL} from '../../constants/'
 import axios from 'axios';
 import qs from 'qs';
@@ -13,27 +20,27 @@ export const actions = {
 
 
 export function registerRequest() {
-    return { type: actions.USER_REGISTER_REQUEST }
+    return {type: actions.USER_REGISTER_REQUEST}
 }
 
 export function registerSuccess(response) {
-    return { type: actions.USER_REGISTER_SUCCESS, status: response.status }
+    return {type: actions.USER_REGISTER_SUCCESS, status: response.status}
 }
 
 export function registerFailed(error) {
-    return { type: actions.USER_REGISTER_FAILED, error }
+    return {type: actions.USER_REGISTER_FAILED, error}
 }
 
 export function loginRequest() {
-    return { type: actions.USER_LOGIN_REQUEST }
+    return {type: actions.USER_LOGIN_REQUEST}
 }
 
 export function loginSuccess(response) {
-    return { type: actions.USER_LOGIN_SUCCESS, data: response.data.data, status: response.status};
+    return {type: actions.USER_LOGIN_SUCCESS, data: response.data.data, status: response.status};
 }
 
 export function loginFailed(error) {
-    return { type: actions.USER_LOGIN_FAILED, error}
+    return {type: actions.USER_LOGIN_FAILED, error}
 }
 
 export const registerUser = (email, password, name) => (dispatch) => {
@@ -83,14 +90,14 @@ export const loginUser = (email, password) => (dispatch) => {
     axios.post(serviceURL, payload, config)
         .then(function (response) {
             console.log(response);
-            if (response.data.status === "error"){
+            if (response.data.status === "error") {
                 dispatch(loginFailed("Invalid Username or Password"));
-            }else{
+            } else {
                 dispatch(loginSuccess(response));
             }
         })
         .catch(function (error) {
             console.log(error);
-            dispatch(loginFailed(error));
+            dispatch(loginFailed("Invalid Username or Password"));
         });
 };
