@@ -1,19 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import Grid from "@material-ui/core/Grid/Grid";
 import {useDispatch, useSelector} from "react-redux";
-import {searchGiphy} from '../redux/actions/giphyActions';
 import DOMPurify from "dompurify";
 import _ from "lodash";
 import Card from "@material-ui/core/Card/Card";
 import CardHeader from "@material-ui/core/CardHeader/CardHeader";
 import CardActions from "@material-ui/core/CardActions/CardActions";
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import RemoveIcon from '@material-ui/icons/RemoveCircle';
+import EditIcon from '@material-ui/icons/Edit';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
@@ -25,7 +21,8 @@ import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Input from "@material-ui/core/Input/Input";
 import {Redirect} from "react-router-dom";
-import {addFavorite} from '../redux/actions/favoriteActions'
+import {listFavorite, updateFavorite, deleteFavorite} from '../redux/actions/favoriteActions'
+import Typography from "@material-ui/core/Typography/Typography";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -59,54 +56,77 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function Home() {
+function Favorites() {
     const classes = useStyles();
-    const [searchQuery, setSearchQuery] = useState("");
     const [open, setOpen] = React.useState(false);
     const [save, setSave] = React.useState("");
     const [category, setCategory] = React.useState("");
     const dispatch = useDispatch();
-    const giphy = useSelector(
-        state => state.giphyReducer
-    );
     const user = useSelector(
         state => state.userReducer
     );
-    console.log("USER State: ",user);
+    const favorite = useSelector(
+        state => state.favoritesReducer
+    );
 
-    function saveFavorite(event, id) {
+    //OnLoad
+    useEffect(() => {
+        dispatch(listFavorite(user.data.token));
+        console.log(favorite);
+    }, []);
+
+    function editFavorite(event, id) {
         event.preventDefault();
         setOpen(true);
         setSave(id);
-        console.log("SAVING: ", id);
+        console.log("EDITING: ", id);
+    }
+
+    function removeFavorite(event, id) {
+        event.preventDefault();
+        console.log("REMOVING: ", id);
+        dispatch(deleteFavorite(id, user.data.token))
     }
 
     function saveFavoriteCategory(event, category) {
         event.preventDefault();
         console.log("SAVING: ", category);
-        dispatch(addFavorite(user.data.token, category, save));
+        dispatch(updateFavorite(save, user.data.token, category));
         setOpen(false);
-    }
-
-    function enterPressed(event) {
-        if (event.key === 'Enter') {
-            search(event);
-        }
     }
 
     function handleClose() {
         setOpen(false);
     }
 
-    function search(event) {
-        event.preventDefault();
-        //Do not search if there's nothing
-        if (!_.isNil(searchQuery)) {
-            dispatch(searchGiphy(searchQuery, 0));
+    function getCategory(id){
+        let result = '';
+        console.log("ID: ", id);
+        console.log("FAV", favorite);
+        if (!_.isNil(favorite) && !_.isNil(favorite.data) && favorite.data !== "") {
+            favorite.data.favorites.forEach(function (value) {
+                if (value.giphy === id) {
+                     result = value.category;
+                }
+            });
         }
+        return result;
+    }
+
+    function getId(id){
+        let result = '';
+        if (!_.isNil(favorite) && !_.isNil(favorite.data)) {
+            favorite.data.favorites.forEach(function (value) {
+                if (value.giphy === id) {
+                     result = value.id;
+                }
+            });
+        }
+        return result;
     }
 
     function generateList(data) {
+        console.log("LIST: ", data);
         if (!_.isNil(data)) {
             return data.map((gif, index) => (
                 <Grid key={index} item xs>
@@ -121,15 +141,20 @@ function Home() {
                             title={gif.title}
                             alt={gif.title}
                         />
+                        <Typography component="h6" variant="h6" align="left" gutterBottom>
+                            <b>Category:</b>{getCategory(gif.id)}
+                        </Typography>
                         <CardActions disableSpacing>
                             <a href="" onClick={(e) => {
-                                saveFavorite(e, gif.id)
-                            }}> <IconButton aria-label="Add to favorites">
-                                <FavoriteIcon/>
+                                removeFavorite(e, getId(gif.id))
+                            }}> <IconButton aria-label="Remove Favorite">
+                                <RemoveIcon/>
                             </IconButton></a>
-                            <IconButton aria-label="Share">
-                                <ShareIcon/>
-                            </IconButton>
+                            <a href="" onClick={(e) => {
+                                editFavorite(e, getId(gif.id))
+                            }}><IconButton aria-label="Edit Category">
+                                <EditIcon/>
+                            </IconButton></a>
                         </CardActions>
                     </Card>
                 </Grid>
@@ -148,37 +173,24 @@ function Home() {
             {redirect}
             <Grid container spacing={3}>
                 <Grid item xs>
+                    <Typography component="h1" variant="h4" align="center" gutterBottom>
+                        Favorite Giphys
+                    </Typography>
                 </Grid>
                 <Grid item xs>
-                    <Paper className={classes.search}>
-                        <InputBase
-                            className={classes.input}
-                            placeholder="Search Giphy"
-                            value={searchQuery}
-                            onKeyDown={(e) => {
-                                enterPressed(e)
-                            }}
-                            onChange={e => setSearchQuery(DOMPurify.sanitize(e.target.value))}
-                            inputProps={{'aria-label': 'Search Giphy'}}
-                        />
-                        <a href="" onClick={(e) => (search(e))}><IconButton className={classes.iconButton}
-                                                                            aria-label="Search">
-                            <SearchIcon/>
-                        </IconButton></a>
-                    </Paper>
                 </Grid>
                 <Grid item xs>
                 </Grid>
             </Grid>
             <Grid container spacing={3}>
-                {generateList(giphy.data)}
+                {generateList(favorite.giphy)}
             </Grid>
 
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Save</DialogTitle>
+                <DialogTitle id="form-dialog-title">Update Category</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                       Please select a category to save this GIPHY under.
+                        Please select a category to save this GIPHY under.
                     </DialogContentText>
                     <form className={classes.container}>
                         <FormControl className={classes.formControl}>
@@ -204,7 +216,7 @@ function Home() {
                         Cancel
                     </Button>
                     <Button onClick={(e) => {saveFavoriteCategory(e, category)}} color="primary">
-                        Save
+                        Update
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -213,4 +225,4 @@ function Home() {
     );
 }
 
-export default Home
+export default Favorites

@@ -8,6 +8,7 @@ import Home from "./routes/home"
 import Login from "./routes/login";
 import Register from "./routes/register";
 import Intro from "./routes/intro";
+import Favorites from "./routes/favorites";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/home" component={Home} />
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register} />
+              <Route path="/favorites" component={Favorites} />
           </div>
       </Router>
   );

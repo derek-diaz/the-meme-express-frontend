@@ -5,7 +5,8 @@ const initialState = {
     error: false,
     errorMessage: "",
     status: "",
-    data: []
+    data: [],
+    giphy: []
 };
 
 function userReducer (state = initialState, action){
@@ -14,6 +15,7 @@ function userReducer (state = initialState, action){
         case actions.FAVORITE_UPDATE_REQUEST:
         case actions.FAVORITE_DELETE_REQUEST:
         case actions.FAVORITE_LIST_REQUEST:
+        case actions.FAVORITE_GIPHY_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -29,6 +31,14 @@ function userReducer (state = initialState, action){
                 status: action.status,
                 data: action.data
             };
+        case actions.FAVORITE_GIPHY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                errorMessage: "",
+                status: action.status,
+                giphy: action.data
+            };
         case actions.FAVORITE_ADD_SUCCESS:
         case actions.FAVORITE_UPDATE_SUCCESS:
         case actions.FAVORITE_DELETE_SUCCESS:
@@ -43,6 +53,7 @@ function userReducer (state = initialState, action){
         case actions.FAVORITE_UPDATE_FAILED:
         case actions.FAVORITE_DELETE_FAILED:
         case actions.FAVORITE_LIST_FAILED:
+        case actions.FAVORITE_GIPHY_FAILED:
             return {
                 ...state,
                 loading: false,

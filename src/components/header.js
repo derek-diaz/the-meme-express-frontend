@@ -47,7 +47,7 @@ function Header() {
                         </Typography>
                         <Link to="/favorites"><Button variant="contained" color="primary"
                                                   className={classes.button}>My Favorites</Button></Link>
-                        <Link to="/ghiphy"><Button variant="contained" color="primary"
+                        <Link to="/home"><Button variant="contained" color="primary"
                                                      className={classes.button}>Find Ghiphys</Button></Link>
                         <Link to="/login" onClick={(e)=>{logout(e)}}><Button variant="contained" color="primary"
                                                      className={classes.button}>Logout</Button></Link>
